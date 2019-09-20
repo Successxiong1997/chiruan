@@ -1,0 +1,31 @@
+<view class="zong" >
+      <!-- <image src="../../img/bg.png" class="bgimg"></image> -->
+      <view class="max">
+        <view class="toplogo">
+            <image src="../../img/toplogo.png"></image>
+        </view>
+        <view class="centerbg">
+              <image src="../../img/feiji.png" class="feiji"></image>
+              <image src="../../img/time_03.png" class="time"></image>
+              <image src="../../img/qiqiu_11.png" class="qiqiu"></image>
+              <image src="../../img/span_11.png" class="span"></image>
+              <image src="../../img/chuan_15.png" class="chuan"></image>
+              <image src="../../img/liwu_14.png" class="liwu"></image>
+              <image src="../../img/sandian.png" class="sandian"></image>
+        </view>
+        <view class="inputbg">
+            <view class="inputbgimg">
+                <input bindinput="input" maxlength="3" class="center"></input>
+            </view>
+        </view>
+        <view class="btnbg">
+        <button open-type="getUserInfo" bindgetuserinfo="markertap"><image src="../../img/btn_30.png" class="btnbgimg"></image></button>
+        </view>
+       <view class="bottombg">
+            <image src="../../img/btommsapn_34.png" class="bottomspan"></image>
+            <image src="../../img/liwu2.png" class="liwu2"></image>
+            <image src="../../img/che_38.png" class="che"></image>
+            <image src="../../img/ren.png" class="ren"></image>
+        </view>
+      </view>
+</view>

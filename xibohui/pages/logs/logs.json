@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "maxdata": "../../Components/maxdata/maxdata"
+  }
+}

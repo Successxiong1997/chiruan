@@ -1,0 +1,35 @@
+<view class="zong" >
+      <!-- <image src="../../img/bg.png" class="bgimg"></image> -->
+      <view class="max">
+        <view class="toplogo">
+            <image src="../../img/toplogo.png"></image>
+        </view>
+        <view class="centerbg">
+              <image src="../../img/feiji.png" class="feiji"></image>
+              <image src="../../img/time_03.png" class="time"></image>
+              <image src="../../img/qiqiu_11.png" class="qiqiu"></image>
+              <image src="../../img/span_11.png" class="span"></image>
+              <image src="../../img/chuan_15.png" class="chuan"></image>
+              <image src="../../img/liwu_14.png" class="liwu"></image>
+              <image src="../../img/sandian.png" class="sandian"></image>
+        </view>
+        <view class="again">
+         <image src="../../img/again.png" class="againbtn" bindtap="zlyc"></image>
+        </view>
+        <view class="api">
+            <view class="btnapi">
+             <image src="../../img/photo_03.png" class="photo" bindtap="baocuncanvas"></image>
+              <button bindtap='onShareAppMessage' open-type="share"  class="invitation_btn" ><image src="../../img/invitation_03.png" class="invitation"></image></button>
+            </view>
+        </view>
+       <view class="bottombg">
+            <image src="../../img/btommsapn_34.png" class="bottomspan"></image>
+            <image src="../../img/liwu2.png" class="liwu2"></image>
+             <image src="../../img/che_38.png" class="che"></image>
+             <image src="../../img/ren.png" class="ren"></image>
+        </view>
+      </view>
+    <maxdata  off='{{off}}' mydata='{{value}}'></maxdata>  <!--自定义组件 -->
+      <!-- <maxdata  off='40' mydata='李浩浩'></maxdata> -->
+      <canvas canvas-id="customCanvas" style="top:-999999px;z-index:9999;width:729px;height:679px"></canvas>
+</view>
