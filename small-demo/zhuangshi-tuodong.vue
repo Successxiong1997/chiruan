@@ -1,206 +1,167 @@
 <template>
-    <div class="container">
-        <div class="main">
-            <div
-                v-for="(item2,i2) in jia" :key="i2"
-                class="box"             
-                :style="`transform:scale(${item2.s}) translate(${item2.x}px,${item2.y}px)`" 
-                :ref="`tiezi_${i2}`" 
-                @click.stop="iptArIdx = i2" 
-                @touchstart.stop="start" 
-                @touchmove.stop="move"
-                @touchend.stop="end">
-                
-                    <img :src="item2.src" />
-
-                
-                <a href="javascript:;" class="shanchu" @click.stop="shanchu(i2)">
-                    <img src="../assets/image/shanchu.png"/>
-                </a>
-                <a href="javascript:;" class="fangda" @touchstart.stop="fddj" @touchmove.stop="fdhd(i2)">
-                    <img src="../assets/image/fangda.png"/>
-                </a>
+    <div id="home">
+        <!-- 图片预加载,需要改成ws链接,具体问涛哥 -->
+        <div id="load">
+            <!-- <img src="https://img.chiruan.net/vueCode/lianzhong/zydspzm1/static/img/bg.jpg" hidden/> -->
+        </div>
+            <div v-for="(item ,i ) in zhuangshi" :key="i" class="aaa" @click="tianjia(i)">
+                <img :src="item">
             </div>
-        </div>
+<!-- :style="`transform:translate(${item2.x}px,${item2.y}px);`" -->
+            <div v-for="(item2, i2) in wutai" :key="i2"
+                :ref="`tiezi_${i2}`"
+                class="movezj" 
+                :style="`transform:translate(${item2.x}px,${item2.y}px) ;`"
+                @click.stop="iptArIdx = i2" 
+                @touchstart.stop="czClick" 
+                @touchmove.stop="czYidong">
 
-        <div class="menu" >
-            <div v-for="(item,i) in zhuangshi" :key=i @click="tianjia(i)">
-                <a href="javascript:;">
-                    <img :src="item">
-                </a>
-            </div>      
-        </div>
+                <img :src="item2.src"/>
+            </div>
+            
+        <!-- 图片剪切 -->
+        <!-- <JianQie ref="clipper" v-show="visible" :img="imgUrl" :clipper-img-width="jqW" :clipper-img-height="jqH" @ok="ok" @cancel="visible = false"/> -->
     </div>
 </template>
 
 <script>
-
+    //图片截取
+    // import JianQie from "./JianQie";
 
     export default {
         //定义数据
         data() {
             return {
+                //图片截取
+                // jqW: 0,
+                // jqH: 0,
+                // visible: false,
+                // imgUrl: "",
+                //按钮音效
+                // ts:''   
+                //阻止重复点击变量
+                // load: 0,
                 zhuangshi:[
-                    require("../assets/image/zs-mianju2.png"),
-                    require("../assets/image/zs-mianju3.png"),
-                    require("../assets/image/zs-nangua.png"),
-                    require("../assets/image/zs-shangkou.png"),
-                    require("../assets/image/zs-xue1.png"),
-                    require("../assets/image/zs-xue2.png"),
                     require("../assets/image/zs-yanjing.png"),
-                    require("../assets/image/zs-youling.png")
-                ],
-                jia:[],
-                fd:{
-                    x:0,
-                    y:0,
-                    num:{}
-                },
-                iptArIdx:null,
-                _ksx:0,
-                _ksy:0,
-                _movex:0,
-                _movey:0,
-            }
+                    require("../assets/image/zs-youling.png"),
+                    ],
+                wutai: [],
+                iptArIdx: null,
+                }
+            },
+        
+
+        //组件
+        components: {
+            //图片截取
+            // JianQie
         },
-        methods:{
+
+
+        //自定义方法
+        methods: {
+            // btnaudio:function() {
+            //     let _audio = new Audio();
+            //     _audio.onloadedmetadata = ()=>{  //音频的元数据已加载
+            //         this.ts = _audio;
+            //     };
+            //     _audio.src = 'http://ysb.yisell.com/yisell/ybys2018050819052088/sound/yisell_sound_2014041023020267849_88366.mp3'
+            // },
+
             tianjia(i){
-                this.jia.push({
-                    domW:0,
-                    domH:0,
-                    x:0,
-                    y:0,
-                    s:1,
-                    src:this.zhuangshi[i]
+                this.wutai.push({
+                    domW: 0,
+                    domH: 0,
+                    x   : 0,
+                    y   : 0,
+                    src : this.zhuangshi[i]
                 })
-                this.iptArIdx = this.jia.length - 1;
+                this.iptArIdx = this.wutai.length - 1;
+                
             },
-            shanchu(k){
-                this.iptArIdx = null;
-                this.jia.splice(k,1);
-            },  
-            fddj(e){
-                this.fd ={
-                    x: e.changedTouches[0].pageX,
-                    y:e.changedTouches[0].pageY,
-                    num: this.jia[this.iptArIdx],
-                }
-            },
-            fdhd(j){
-                let _point = event.changedTouches[0];
-                let _y     = _point.pageY;
-                let _x     = _point.pageX;
-                if(this.fd.y > _y || this.fd.x > _x){
-                    this.jia[j].s += .01
-                }else{
-                    this.jia[j].s -= .01   
-                }
-                this.fd.y = _y;
-                this.fd.x = _x;
-            },
-            start(e){
+
+            czClick(e){
                 if(e.touches.length == 1){
-                let _iptAr = this.jia[this.iptArIdx];
-                let _dom   = this.$refs["tiezi"+"_"+this.iptArIdx][0];
-                _iptAr.domW = _dom.offsetWidth / 2;
-                _iptAr.domH = _dom.offsetHeight / 2;
-            //    let _main = event.changedTouches[0];
-            //    this._ksx=_main.pageX;
-            //    this._ksy=_main.pageY;
+                    let _iptAr = this.wutai[this.iptArIdx];
+                    let _dom   = this.$refs["tiezi_"+this.iptArIdx][0];
+                    _iptAr.domW = _dom.offsetWidth / 2;
+                    _iptAr.domH = _dom.offsetHeight / 2;
                 }
             },
-            move(e){  //移动
+            czYidong(e){
                 e.preventDefault(); 
                 e.stopPropagation();
-                // let _main = event.changedTouches[0];
-                // this._movex = _main.pageX;
-                // this. _movey =_main.pageY;
-                // this.jia[0].x +=((this._movex - this._ksx) / 2) |0;
-                // this.jia[0].y += ((this._movey - this._ksy) / 2) |0;
-                // this._ksy = this._movey;
-                // this._ksx = this._movex;
+
+                this.changdu = 100000;
+
                 if(e.touches.length == 1){
-                    let _iptAr = this.jia[this.iptArIdx];
-                    let _dom   = this.$refs["tiezi" +"_"+ this.iptArIdx][0];
+                    let _iptAr = this.wutai[this.iptArIdx];
+                    let _dom   = this.$refs["tiezi_"+this.iptArIdx][0];
                     let _point = e.changedTouches[0];
                     let _rect  = _dom.getBoundingClientRect();
-
+                    
                     _iptAr.x += _point.clientX - _rect.left - _iptAr.domW;
                     _iptAr.y += _point.clientY - _rect.top - _iptAr.domH;
                 }
+                
             },
-            end(){
+            // ok(data) {
+            //   setTimeout(() => {
+            //     this.visible = 0;
+            //   }, 300);
+            // },
 
-            }
+            // jisuan() {
+            //   setTimeout(() => {
+            //     this.jqW = this.jqH = Math.ceil(document.documentElement.clientWidth * (window.devicePixelRatio / 1.4));
+            //     this.$refs.clipper._initClipper();
+            //   }, 160);
+            // }
+          },
+        //在实例创建完成后被立即调用
+        created() {
+            //图片剪切框大小调整
+              // this.jisuan();
+            //  this.btnaudio();
+        },
+        mounted(){
+            
+            
+
+
+            
+              // let resizeEvt = "orientationchange" in window ? "orientationchange" : "resize";
+              // if (!document.addEventListener) return;
+              // window.addEventListener(resizeEvt, this.jisuan, false);
+              // document.addEventListener("DOMContentLoaded", this.jisuan, false);
+        },
+        destroyed() {
+              // let resizeEvt ="orientationchange" in window ? "orientationchange" : "resize";
+              // if (!document.addEventListener) return;
+              // window.removeEventListener(resizeEvt, this.jisuan, false);
+              // document.removeEventListener("DOMContentLoaded", this.jisuan, false);
         }
-    }
+  }
+  
 </script>
 
 <style lang="less">
-    .container{
+    #load{
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 7.5rem;
-        height: 100%;
-        background-color: rgb(225, 255, 255);
-        .main{
-            position: absolute;
-            width: 90%;
-            height: 75%;
-            transform: translate(-50%);
-            top: 5%;
-            left: 50%;
-            .box{
-                position: absolute;
-                top: 10%;
-                left: 10%;
-                img{
-                    width: 1.21rem;
-                    height:1.19rem;
-                }
-                .shanchu{
-                    position: absolute;
-                    top:-.1rem;
-                    left:-.1rem;
-                    img{
-                        width: .31rem;
-                        height: .31rem;
-                    }
-                }
-                .fangda{
-                    position: absolute;
-                    top:-.1rem;
-                    right:-.1rem;
-                    img{
-                        width: .31rem;
-                        height: .31rem;
-                    }
-                }
-            }
-        }
-        .menu{
-            position: absolute;
-            bottom: 5%;
-            width: 80%;
-            height: 10%;
-            border: 1px solid rgb(170, 161, 228);
-            transform: translate(-50%);
-            left: 50%;
-            white-space:nowrap;
-            overflow: auto;
-            div{
-                width: 20%;
-                height: 100%;
-                display: inline-block; 
-                a:active{  
-                    img{
-                      transform:scale(0.8);    
-                    }
-                }  
-            }
-        }
+        top: -999px;  
     }
+    .aaa{
+        width: 100px;
+        height: auto;
+        
+    }
+    .movezj{
+        margin: 0 auto;
+        width: 50px;
+        height: 50px;
+    }
+    
+    
 </style>
 
 
